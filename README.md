@@ -18,8 +18,6 @@ Its main purpose is **AI-powered theme switching**, allowing users to easily tog
 
 ### Homepage  
 ![AIThemeSwitcher Page 01](./AiThemeSwitcher-page-01.png)
-
-### Dark Mode  
 ![AIThemeSwitcher Page 02](./AiThemeSwitcher-page-02.png)
 
 ---
@@ -27,7 +25,7 @@ Its main purpose is **AI-powered theme switching**, allowing users to easily tog
 ## 📺 Demo Video
 
 I also created a YouTube video for this project:  
-👉 [Watch the video here]((https://www.youtube.com/watch?v=MhkblLXhbws))  
+👉 [Watch the video here](https://www.youtube.com/watch?v=MhkblLXhbws)
 
 ---
 

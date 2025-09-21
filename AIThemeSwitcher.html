@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Theme Switcher</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&family=Press+Start+2P&family=Montserrat:wght@400;700&family=Pacifico&family=Playfair+Display:wght@700&family=Orbitron:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6200ee;
+            --secondary-color: #03dac6;
+            --background-color: #f5f5f5;
+            --text-color: #333333;
+            --accent-color: #ff4081;
+            --card-bg: #ffffff;
+            --font-main: 'Roboto', sans-serif;
+            --font-heading: 'Montserrat', sans-serif;
+            --card-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+            --transition-speed: 0.5s;
+            --border-radius: 16px;
+            --feature-icon-size: 3rem;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--background-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            transition: all var(--transition-speed) ease;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        h1 {
+            font-family: var(--font-heading);
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            font-size: 3rem;
+            transition: all var(--transition-speed) ease;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            display: inline-block;
+        }
+
+        h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 4px;
+            background: var(--accent-color);
+            border-radius: 2px;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            max-width: 700px;
+            margin: 0 auto 3rem;
+            color: var(--text-color);
+            opacity: 0.9;
+            line-height: 1.7;
+        }
+
+        .theme-input-container {
+            margin: 3rem 0;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        #themeInput {
+            padding: 1.2rem 1.8rem;
+            border: 2px solid var(--primary-color);
+            border-radius: var(--border-radius);
+            font-size: 1.1rem;
+            width: 400px;
+            max-width: 100%;
+            outline: none;
+            transition: all var(--transition-speed) ease;
+            background-color: var(--card-bg);
+            box-shadow: var(--card-shadow);
+        }
+
+        #themeInput:focus {
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 4px rgba(255, 64, 129, 0.3);
+        }
+
+        button {
+            padding: 1.2rem 2.5rem;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            border-radius: var(--border-radius);
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all var(--transition-speed) ease;
+            box-shadow: var(--card-shadow);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            opacity: 0;
+            transition: all var(--transition-speed) ease;
+            z-index: -1;
+        }
+
+        button:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 64, 129, 0.3);
+        }
+
+        button:hover::before {
+            opacity: 1;
+        }
+
+        .theme-examples {
+            margin: 2rem 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 0.8rem;
+        }
+
+        .theme-tag {
+            display: inline-block;
+            padding: 0.6rem 1.2rem;
+            background-color: var(--primary-color);
+            color: white;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .theme-tag:hover {
+            background-color: var(--accent-color);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(255, 64, 129, 0.3);
+        }
+
+        .features-container {
+            margin-top: 4rem;
+        }
+
+        .features-title {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin-bottom: 2rem;
+            position: relative;
+            display: inline-block;
+        }
+
+        .features-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .feature-cards {
+            display: flex;
+            flex-direction: column;
+            gap: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 2.5rem;
+            box-shadow: var(--card-shadow);
+            transition: all var(--transition-speed) ease;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(0,0,0,0.05);
+            text-align: left;
+            display: flex;
+            align-items: flex-start;
+            gap: 2rem;
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: var(--primary-color);
+            transition: all var(--transition-speed) ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .feature-card:hover::before {
+            width: 8px;
+            background: var(--accent-color);
+        }
+
+        .feature-icon {
+            font-size: var(--feature-icon-size);
+            color: var(--primary-color);
+            transition: all var(--transition-speed) ease;
+            flex-shrink: 0;
+            margin-top: 0.5rem;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(5deg);
+            color: var(--accent-color);
+        }
+
+        .feature-content {
+            flex: 1;
+        }
+
+        .feature-card h3 {
+            color: var(--primary-color);
+            font-family: var(--font-heading);
+            margin: 0 0 1rem 0;
+            font-size: 1.6rem;
+            transition: all var(--transition-speed) ease;
+        }
+
+        .feature-card:hover h3 {
+            color: var(--accent-color);
+        }
+
+        .feature-card p {
+            color: var(--text-color);
+            margin: 0;
+            font-size: 1.1rem;
+            line-height: 1.7;
+        }
+
+        /* Predefined theme styles */
+        .cyberpunk {
+            --primary-color: #ff2a6d;
+            --secondary-color: #05d9e8;
+            --background-color: #1a1a2e;
+            --text-color: #d1f7ff;
+            --accent-color: #f9f002;
+            --card-bg: #16213e;
+            --font-heading: 'Orbitron', sans-serif;
+            --card-shadow: 0 0 30px #05d9e8;
+            --feature-icon-size: 3.5rem;
+        }
+
+        .nature {
+            --primary-color: #2e7d32;
+            --secondary-color: #81c784;
+            --background-color: #f1f8e9;
+            --text-color: #1b5e20;
+            --accent-color: #ff8f00;
+            --card-bg: #ffffff;
+            --font-heading: 'Montserrat', sans-serif;
+        }
+
+        .retro {
+            --primary-color: #ff6b6b;
+            --secondary-color: #4ecdc4;
+            --background-color: #ffe66d;
+            --text-color: #292f36;
+            --accent-color: #ff6b6b;
+            --card-bg: #ffffff;
+            --font-heading: 'Pacifico', cursive;
+            --card-shadow: 10px 10px 0px #292f36;
+        }
+
+        .ocean {
+            --primary-color: #0077b6;
+            --secondary-color: #00b4d8;
+            --background-color: #caf0f8;
+            --text-color: #03045e;
+            --accent-color: #ff9e00;
+            --card-bg: #ffffff;
+            --font-heading: 'Playfair Display', serif;
+        }
+
+        .dark-mode {
+            --primary-color: #bb86fc;
+            --secondary-color: #03dac6;
+            --background-color: #121212;
+            --text-color: #e1e1e1;
+            --accent-color: #ff7597;
+            --card-bg: #1e1e1e;
+            --font-heading: 'Roboto', sans-serif;
+        }
+
+        .loading {
+            position: relative;
+            color: transparent;
+        }
+
+        .loading::after {
+            content: "";
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            margin: auto;
+            border: 4px solid transparent;
+            border-top-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .subtitle {
+                font-size: 1.1rem;
+            }
+            
+            .feature-card {
+                flex-direction: column;
+                padding: 2rem;
+                gap: 1.5rem;
+            }
+            
+            .feature-icon {
+                margin-top: 0;
+                align-self: center;
+            }
+            
+            .feature-content {
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>AI-Powered Theme Magic</h1>
+        <p class="subtitle">Experience the future of web design with our intelligent theme switcher that transforms every element of the page to match your desired aesthetic perfectly</p>
+        
+        <div class="theme-input-container">
+            <input type="text" id="themeInput" placeholder="Describe your theme...">
+            <button id="applyTheme">Transform Design</button>
+        </div>
+        
+        <div class="theme-examples">
+            <span class="theme-tag" data-theme="cyberpunk">Cyberpunk</span>
+            <span class="theme-tag" data-theme="nature">Nature</span>
+            <span class="theme-tag" data-theme="retro">Retro</span>
+            <span class="theme-tag" data-theme="ocean">Ocean</span>
+            <span class="theme-tag" data-theme="dark-mode">Dark Mode</span>
+        </div>
+        
+        <div class="features-container">
+            <h2 class="features-title">Key Features</h2>
+            <div class="feature-cards">
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <div class="feature-content">
+                        <h3>Dynamic Color System</h3>
+                        <p>Our AI analyzes your theme request and applies a complete color transformation, adjusting every element from backgrounds to accents while maintaining perfect contrast and readability.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">✒️</div>
+                    <div class="feature-content">
+                        <h3>Intelligent Typography</h3>
+                        <p>Fonts dynamically adapt to match your theme's personality. Cyberpunk gets futuristic tech fonts, nature themes use organic styles, and retro themes feature vintage typography.</p>
+                    </div>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔄</div>
+                    <div class="feature-content">
+                        <h3>Adaptive Layouts</h3>
+                        <p>Beyond colors and fonts, our system subtly adjusts spacing, shadows, and visual hierarchy to perfectly complement each theme's unique character.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeInput = document.getElementById('themeInput');
+            const applyBtn = document.getElementById('applyTheme');
+            const body = document.body;
+            const themeTags = document.querySelectorAll('.theme-tag');
+            
+            // Enhanced theme mappings
+            const themeMap = {
+                'cyberpunk': 'cyberpunk',
+                'nature': 'nature',
+                'retro': 'retro',
+                'ocean': 'ocean',
+                'sea': 'ocean',
+                'water': 'ocean',
+                'dark': 'dark-mode',
+                'dark mode': 'dark-mode',
+                'night': 'dark-mode',
+                'forest': 'nature',
+                'green': 'nature',
+                '80s': 'retro',
+                'vintage': 'retro',
+                'futuristic': 'cyberpunk',
+                'future': 'cyberpunk',
+                'neon': 'cyberpunk',
+                'tech': 'cyberpunk',
+                'summer': 'ocean',
+                'beach': 'ocean',
+                'matrix': 'cyberpunk',
+                'jungle': 'nature',
+                'pastel': 'retro',
+                'sunset': 'ocean'
+            };
+            
+            // Enhanced apply theme function
+            function applyTheme(themeName) {
+                // Remove all theme classes first
+                body.className = '';
+                
+                // Show loading state
+                applyBtn.innerHTML = '<span class="loading"></span> Processing...';
+                applyBtn.disabled = true;
+                
+                // Add loading class to cards
+                const cards = document.querySelectorAll('.feature-card');
+                cards.forEach(card => {
+                    card.style.opacity = '0.7';
+                    card.style.transform = 'translateY(10px)';
+                });
+                
+                // Simulate AI processing delay
+                setTimeout(() => {
+                    const normalizedTheme = themeName.toLowerCase().trim();
+                    let themeClass = '';
+                    
+                    // Check if the input matches any predefined theme
+                    if (themeMap[normalizedTheme]) {
+                        themeClass = themeMap[normalizedTheme];
+                    } else {
+                        // For unmatched themes, use a random selection from our predefined
+                        const themes = ['cyberpunk', 'nature', 'retro', 'ocean', 'dark-mode'];
+                        themeClass = themes[Math.floor(Math.random() * themes.length)];
+                    }
+                    
+                    // Apply the selected theme class
+                    body.classList.add(themeClass);
+                    
+                    // Update button text
+                    applyBtn.textContent = 'Transform Again';
+                    applyBtn.disabled = false;
+                    
+                    // Update input placeholder with the applied theme
+                    themeInput.placeholder = `Current: ${themeClass.replace('-', ' ')}`;
+                    themeInput.value = '';
+                    
+                    // Animate cards back
+                    cards.forEach((card, index) => {
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateY(0)';
+                        card.style.transitionDelay = `${index * 0.1}s`;
+                    });
+                    
+                    // Reset transition delays after animation
+                    setTimeout(() => {
+                        cards.forEach(card => {
+                            card.style.transitionDelay = '0s';
+                        });
+                    }, 500);
+                    
+                }, 1500 + Math.random() * 1000); // Random delay between 1.5-2.5 seconds
+            }
+            
+            // Event listeners
+            applyBtn.addEventListener('click', function() {
+                if (themeInput.value.trim() !== '') {
+                    applyTheme(themeInput.value);
+                }
+            });
+            
+            themeInput.addEventListener('keypress', function(e) {
+                if (e.key === 'Enter' && themeInput.value.trim() !== '') {
+                    applyTheme(themeInput.value);
+                }
+            });
+            
+            // Theme tag click handlers
+            themeTags.forEach(tag => {
+                tag.addEventListener('click', function() {
+                    const theme = this.getAttribute('data-theme');
+                    applyTheme(theme);
+                });
+            });
+            
+            // Initialize with random theme
+            const initialThemes = ['cyberpunk', 'nature', 'retro', 'ocean', 'dark-mode'];
+            const randomTheme = initialThemes[Math.floor(Math.random() * initialThemes.length)];
+            setTimeout(() => {
+                applyTheme(randomTheme);
+            }, 500);
+        });
+    </script>
+</body>
+</html>

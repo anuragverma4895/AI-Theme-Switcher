@@ -24,8 +24,8 @@ Its main purpose is **AI-powered theme switching**, allowing users to easily tog
 ## 📸 Screenshots  
 
 ### Homepage  
-![AIThemeSwitcher Page 01](./AiThemeSwitcher-page-01.png)  
-![AIThemeSwitcher Page 02](./AiThemeSwitcher-page-02.png)
+![AIThemeSwitcher Page 01](./screenshot01.png)  
+![AIThemeSwitcher Page 02](./screenshot02.png)
 
 ---
 
